@@ -1,0 +1,17 @@
+.popup__container_type_result {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+  border-radius: 10px;
+  padding: 34px 36px;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 0) and (max-width: 550px) {
+  .popup__container_type_result {
+    padding: 20 22px;
+  }
+}

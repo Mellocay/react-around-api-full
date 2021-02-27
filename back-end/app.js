@@ -1,0 +1,63 @@
+require('dotenv').config(); 
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+
+const auth = require('./middleware/auth');
+const userRouter = require('./routers/users');
+const cardRouter = require('./routers/cards');
+const {createUser, loginUser} = require('./controllers/users');
+const { requestLogger, errorLogger } = require('./middlewares/logger'); 
+const NotFoundError = require('./middleware/errors/NotFoundError.js');
+
+const app = express();
+const { PORT = 3000 } = process.env;
+
+app.use(bodyParser.json());
+app.use(helmet());
+
+// connect to the MongoDB server
+mongoose.connect('mongodb://localhost:27017/aroundb', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
+
+app.use(requestLogger);
+// connect to routers
+app.post('/signin', loginUser);
+app.post('/signup', createUser);
+app.use(auth);
+app.use('/users', userRouter);
+app.use('/cards', cardRouter);
+
+app.use(errorLogger);
+app.use(errors());
+
+// requested page doesn't exist
+app.get('*', (req, res) => {
+  res.status(404).send({ message: 'Page not found' });
+}); 
+
+app.use((err, req, res, next) => {
+  res.send({ message: err.message });
+});
+
+app.use((err, req, res, next) => {
+  // if an error has no status, display 500
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .send({
+      // check the status and display a message based on it
+      message: statusCode === 500
+        ? 'An error occurred on the server'
+        : message
+    });
+}); 
+
+app.listen(PORT, () => {
+  console.log(`App listening at port ${PORT}`);
+});

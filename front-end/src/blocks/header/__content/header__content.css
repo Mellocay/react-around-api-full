@@ -1,0 +1,6 @@
+.header__content {
+  display: flex;
+  flex-direction: row;
+  width: 350px;
+  justify-content: flex-end;
+}

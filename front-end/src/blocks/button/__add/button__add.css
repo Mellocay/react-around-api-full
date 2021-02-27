@@ -1,0 +1,20 @@
+.button__add {
+  width: 150px;
+  height: 50px;
+  background-color: black;
+  margin: 35px 0;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+  background-image: url(../../../images/add-button.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media screen and (min-width: 0) and (max-width: 607px) {
+  .button__add {
+    width: 282px;
+    height: 50px;
+    grid-column: span 2;
+    grid-row: 3;
+  }
+}

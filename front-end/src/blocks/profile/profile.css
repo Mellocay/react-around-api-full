@@ -1,0 +1,33 @@
+@import url('./__image/profile__image.css');
+@import url('./__info/profile__info.css');
+@import url('./__image-section/profile__image-section.css');
+@import url('./__image/profile__image_edit-button.css');
+@import url('./__name/profile__name.css');
+@import url('./__occupation/profile__occupation.css');
+
+.profile {
+  margin: 40px auto 51px;
+  max-width: 882px;
+  color: white;
+  display: grid;
+  grid-template-columns: 150px auto 178px 150px;
+  grid-template-rows: 1fr;
+}
+
+@media screen and (min-width: 608px) and (max-width: 898px) {
+  .profile {
+    grid-template-columns: 150px auto auto 150px;
+    max-width: 585px;
+  }
+}
+
+@media screen and (min-width: 0) and (max-width: 607px) {
+  .profile {
+    grid-column: 1 auto;
+    grid-template-rows: auto;
+    margin: 36px auto 0;
+    max-width: 282px;
+    justify-items: center;
+    align-items: center;
+  }
+}

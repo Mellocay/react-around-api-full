@@ -1,0 +1,37 @@
+.card__item {
+  border-radius: 10px;
+  width: 282px;
+  background-color: white;
+  margin: 0 18px 21px 0;
+  position: relative;
+  min-height: 361px;
+}
+
+.card__item:nth-child(3n) {
+  margin-right: 0;
+}
+
+.card__item:hover {
+  transform: scale(1.05);
+}
+
+@media screen and (min-width: 608px) and (max-width: 898px) {
+  .card__item:nth-child(2n) {
+    margin-right: 0;
+  }
+  .card__item:nth-child(3n) {
+    margin-right: 18px;
+  }
+  .card__item:last-child {
+    margin-right: 0;
+  }
+}
+
+@media screen and (min-width: 0) and (max-width: 607px) {
+  .card__item {
+    margin: 0 10px 20px;
+  }
+  .card__item:nth-child(3n) {
+    margin-right: 10px;
+  }
+}

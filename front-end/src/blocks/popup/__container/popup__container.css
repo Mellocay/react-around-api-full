@@ -1,0 +1,13 @@
+.popup__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+}
+
+@media screen and (min-width: 0) and (max-width: 550px) {
+  .popup__container {
+    width: 265px;
+    height: 283px;
+  }
+}

@@ -1,0 +1,11 @@
+.popup_size_large {
+  width: 430px;
+  height: 330px;
+}
+
+@media screen and (min-width: 0) and (max-width: 550px) {
+  .popup_size_large {
+    width: 240px;
+    height: 258px;
+  }
+}

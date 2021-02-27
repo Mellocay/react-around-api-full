@@ -1,0 +1,4 @@
+.card__base {
+  display: flex;
+  justify-content: space-between;
+}

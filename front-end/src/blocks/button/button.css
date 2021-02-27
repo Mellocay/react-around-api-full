@@ -1,0 +1,17 @@
+@import url('./__edit/button__edit.css');
+@import url('./__add/button__add.css');
+@import url('./__like/button__like.css');
+@import url('./__close/button__close.css');
+@import url('./__submit/button__submit.css');
+@import url('./__remove/button__remove.css');
+@import url('./__text/button__text.css');
+
+.button {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  opacity: .6;
+  cursor: pointer;
+}
