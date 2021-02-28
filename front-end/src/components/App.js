@@ -8,7 +8,7 @@ import EditAvatarPopup from './EditAvatarPopup.js'
 import AddCardPopup from './AddCardPopup.js'
 import PopupWithImage from './PopupWithImage';
 import Footer from './Footer.js';
-import api from '../utils/api.js';
+import Api from '../utils/Api.js';
 import Register from './Register.js';
 import Login from './Login.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
@@ -18,6 +18,16 @@ import * as auth from '../utils/authorization.js';
 
 function App() {
 
+  const [token, setToken] = React.useState('');
+  const api = new Api({
+    baseUrl: "http://localhost:3001/",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  });
+
   // set states for Profile/Current User
   const [currentUser, setCurrentUser] = React.useState({});
 
@@ -25,6 +35,7 @@ function App() {
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
       setCurrentUser(res);
+      setLoggedIn(true);
     })
       .catch(err => console.log(err));
 
@@ -58,6 +69,7 @@ function App() {
           history.push('/');
           setEmail(res.data.email);
           setLoggedIn(true);
+          setToken(jwt);
           console.log(res);
         })
         .catch(err => console.log(err))

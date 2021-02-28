@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const cors = require('cors')
 
 const auth = require('./middleware/auth');
 const userRouter = require('./routers/users');
@@ -16,6 +17,7 @@ const { PORT = 3001 } = process.env;
 
 app.use(bodyParser.json());
 app.use(helmet());
+app.use(cors());
 
 // connect to the MongoDB server
 mongoose.connect('mongodb://localhost:27017/aroundb', {
