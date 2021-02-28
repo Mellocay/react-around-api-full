@@ -87,12 +87,12 @@ const getCurrentUser = (req, res, next) => {
     })
     .catch(next)
 };
-}
 
 module.exports = {
   getUsers,
   getOneUser,
   createUser,
   updateUser,
-  loginUser
+  loginUser,
+  getCurrentUser,
 };

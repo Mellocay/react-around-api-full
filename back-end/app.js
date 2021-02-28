@@ -7,12 +7,12 @@ const helmet = require('helmet');
 const auth = require('./middleware/auth');
 const userRouter = require('./routers/users');
 const cardRouter = require('./routers/cards');
-const {createUser, loginUser} = require('./controllers/users');
-const { requestLogger, errorLogger } = require('./middlewares/logger'); 
+const { createUser, loginUser } = require('./controllers/userControllers');
+const { requestLogger, errorLogger } = require('./middleware/logger'); 
 const NotFoundError = require('./middleware/errors/NotFoundError.js');
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 app.use(bodyParser.json());
 app.use(helmet());
@@ -34,7 +34,7 @@ app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
 app.use(errorLogger);
-app.use(errors());
+// app.use(errors());
 
 // requested page doesn't exist
 app.get('*', (req, res) => {
