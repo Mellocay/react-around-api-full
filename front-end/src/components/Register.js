@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Register (props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.handleRegistration(email, password);
   }
-
-  useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      history.push('/');
-    }
-  }, [history])
 
   return (
     <div className="form">

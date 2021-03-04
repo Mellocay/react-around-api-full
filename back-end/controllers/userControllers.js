@@ -7,7 +7,7 @@ const NotFoundError = require('../middleware/errors/NotFoundError');
 const NotAuthorizedError = require('../middleware/errors/NotAuthorizedError');
 const BadRequestError = require('../middleware/errors/BadRequestError');
 
-function getUsers(req, res) {
+function getUsers(req, res, next) {
   return User.find({})
     .then((users) => res.status(200).send(users))
     .catch(next);
@@ -24,7 +24,8 @@ function getOneUser(req, res) {
     .catch(next);
 }
 
-function createUser(req, res) {
+function createUser(req, res, next) {
+  debugger;
   const { email, password, name, about, avatar } = req.body;
   // record data into the database
   bcrypt.hash(password, 10)
@@ -37,7 +38,7 @@ function createUser(req, res) {
     })
 }
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     req.params.id, {
     email: req.params.email,
@@ -56,6 +57,7 @@ const updateUser = (req, res) => {
 };
 
 const loginUser = (req, res, next) => {
+  console.log(password);
   const { email, password } = req.body;
   if (!validator.isEmail(email)) {
     throw new NotAuthorizedError('Email and Password Combination incorrect');
@@ -67,7 +69,7 @@ const loginUser = (req, res, next) => {
       }
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+        'some-secret-key', { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true

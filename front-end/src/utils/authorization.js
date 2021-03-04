@@ -27,7 +27,7 @@ export const authorize = (email, password) => {
   .then((res) => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
   .then((data) => {
     if (data.token){
-      localStorage.setItem('jwt', data.token);
+      localStorage.setItem('token', data.token);
       return data;
     } else {
       return;

@@ -1,22 +1,20 @@
 const Card = require('../models/card');
 const NotFoundError = require('../middleware/errors/NotFoundError');
-const NotAuthorizedError = require('../middleware/errors/NotAuthorizedError');
-const BadRequestError = require('../middleware/errors/BadRequestError');
 
-function getCards(req, res) {
+function getCards(req, res, next) {
   return Card.find({})
     .then((cards) => res.status(200).send(cards))
     .catch(next);
 }
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(200).send(card))
     .catch(next);
 };
 
-function deleteCard(req, res) {
+function deleteCard(req, res, next) {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
