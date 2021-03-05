@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:3001/';
+export const BASE_URL = 'http://localhost:3001';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -27,7 +27,7 @@ export const authorize = (email, password) => {
   .then((res) => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
   .then((data) => {
     if (data.token){
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('jwt', data.token);
       return data;
     } else {
       return;

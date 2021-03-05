@@ -30,11 +30,11 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 
 app.use(requestLogger);
 // connect to routers
-app.post('/signin', loginUser);
 app.post('/signup', createUser);
+app.post('/signin', loginUser);
 app.use(auth);
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
+app.use('/', userRouter);
+app.use('/', cardRouter);
 
 app.use(errorLogger);
 // app.use(errors());

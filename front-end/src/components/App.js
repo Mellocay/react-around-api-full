@@ -8,7 +8,7 @@ import EditAvatarPopup from './EditAvatarPopup.js'
 import AddCardPopup from './AddCardPopup.js'
 import PopupWithImage from './PopupWithImage';
 import Footer from './Footer.js';
-import api from '../utils/Api.js';
+import Api from '../utils/Api';
 import Register from './Register.js';
 import Login from './Login.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
@@ -23,47 +23,58 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
 
-  function handleCheckToken(token) {
-    
-    if (token) {
-      auth.getContent(token)
+  const api = React.useMemo(() => {
+    return new Api({
+      baseUrl: "http://localhost:3001",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+  }, [token]);
+
+// Call server for Profile/User Content
+React.useEffect(() => {
+  api.getUserInfo().then((res) => {
+    setCurrentUser(res);
+  })
+    .catch(err => console.log(err));
+
+  // Call server to get initial cards
+  api.getCardList().then(res => {
+    setCards(res.map((card) => ({
+      link: card.link,
+      name: card.name,
+      likes: card.likes,
+      _id: card._id,
+      owner: card.owner
+    })))
+  })
+    .catch(err => console.log(err));
+}, [api]);
+
+  function handleCheckToken() {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
         .then((res) => {
           if (res.err) {
             console.log('Error!');
           }
-          setEmail(res.data.email);
+          setEmail(res.email);
+          console.log(res.email);
           setLoggedIn(true);
-          setToken(token);
-          console.log(res);
+          setToken(jwt);
+          history.push('/');
         })
         .catch(err => console.log(err))
     }
   }
 
   React.useEffect(() => {
-    handleCheckToken(token);
+    handleCheckToken();
   },);
-
-  // Call server for Profile/User Content
-  React.useEffect(() => {
-    api.getUserInfo(token).then((res) => {
-      setCurrentUser(res);
-      setLoggedIn(true);
-    })
-      .catch(err => console.log(err));
-
-    // Call server to get initial cards
-    api.getCardList(token).then(res => {
-      setCards(res.map((card) => ({
-        link: card.link,
-        name: card.name,
-        likes: card.likes,
-        _id: card._id,
-        owner: card.owner
-      })))
-    })
-      .catch(err => console.log(err));
-  }, [token]);
 
   // set state for Cards
   const [cards, setCards] = React.useState([]);
@@ -168,13 +179,11 @@ function App() {
 
   // states for Registration and Login
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  // const [password, setPassword] = React.useState('');
 
   function handleRegistration(email, password) {
     auth.register(email, password)
     .then((res) => {
-        console.log(email, password);
-        console.log(res);
         if (res.err || !res) {
           setIsSuccessful(false);
           setIsResultPopupOpen(true);

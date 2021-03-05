@@ -25,7 +25,6 @@ function getOneUser(req, res) {
 }
 
 function createUser(req, res, next) {
-  debugger;
   const { email, password, name, about, avatar } = req.body;
   // record data into the database
   bcrypt.hash(password, 10)
@@ -57,7 +56,6 @@ const updateUser = (req, res, next) => {
 };
 
 const loginUser = (req, res, next) => {
-  console.log(password);
   const { email, password } = req.body;
   if (!validator.isEmail(email)) {
     throw new NotAuthorizedError('Email and Password Combination incorrect');
@@ -80,12 +78,16 @@ const loginUser = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => {
+  console.log(req.user._id, "1");
   User.findById(req.user._id)
-    .then(user => {
-      if (!user) {
+    .then((user) => {
+      if (user) {
+        res.send(user._doc);
+        console.log(req.user, "2"); 
+      } else {
+        console.log(req.user, "3"); 
         throw new NotFoundError('Imaginary profile detected.  No such profile found');
       }
-      res.send(user)
     })
     .catch(next)
 };
