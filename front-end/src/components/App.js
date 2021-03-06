@@ -38,13 +38,11 @@ function App() {
 React.useEffect(() => {
   api.getUserInfo().then((res) => {
     setCurrentUser(res);
-    console.log(currentUser);
   })
     .catch(err => console.log(err));
 
   // Call server to get initial cards
   api.getCardList().then(res => {
-    console.log(res);
     setCards(res.map((card) => ({
       link: card.link,
       name: card.name,
@@ -198,7 +196,7 @@ React.useEffect(() => {
   }
 
   function handleSignout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
     history.push('/signin');

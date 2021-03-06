@@ -38,14 +38,13 @@ function createUser(req, res, next) {
 }
 
 const updateUser = (req, res, next) => {
+  const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user._id, {
-    email: req.user.email,
-    name: req.user.name,
-    about: req.user.about,
-    avatar: req.user.aatar,
-  },
-  )
+      "name": name,
+      "about": about,
+      },
+      { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Imaginary profile detected.  No such profile found');
@@ -82,7 +81,7 @@ const getCurrentUser = (req, res, next) => {
     .then((user) => {
       if (user) {
         res.send(user._doc);
-      } else { 
+      } else {
         throw new NotFoundError('Imaginary profile detected.  No such profile found');
       }
     })
