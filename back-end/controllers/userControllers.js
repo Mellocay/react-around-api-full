@@ -39,11 +39,11 @@ function createUser(req, res, next) {
 
 const updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
-    req.params.id, {
-    email: req.params.email,
-    name: req.params.name,
-    about: req.params.about,
-    avatar: req.params.aatar,
+    req.user._id, {
+    email: req.user.email,
+    name: req.user.name,
+    about: req.user.about,
+    avatar: req.user.aatar,
   },
   )
     .then((user) => {
@@ -78,14 +78,11 @@ const loginUser = (req, res, next) => {
 };
 
 const getCurrentUser = (req, res, next) => {
-  console.log(req.user._id, "1");
   User.findById(req.user._id)
     .then((user) => {
       if (user) {
         res.send(user._doc);
-        console.log(req.user, "2"); 
-      } else {
-        console.log(req.user, "3"); 
+      } else { 
         throw new NotFoundError('Imaginary profile detected.  No such profile found');
       }
     })

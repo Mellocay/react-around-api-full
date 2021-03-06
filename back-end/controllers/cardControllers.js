@@ -17,16 +17,50 @@ const createCard = (req, res, next) => {
 function deleteCard(req, res, next) {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Imaginary card detected.  No such card found');
+      if (String(card.owner) !== req.user._id) {
+        throw new NotAuthorizedError('You may not delete cards that are not yours.');
       }
-      res.status(200).send({ data: card });
+      if (card === null) {
+        throw new NotFoundError('card not found')
+      }
+      res.send({message:'card deleted'})
     })
     .catch(next);
+}
+
+function addLike(req, res, next) {
+  let user = req.user._id;
+  Card.findById(req.params.cardId)
+    .then((card) => {
+      if (card.likes.includes(user)) {
+        throw new BadRequestError('You have already liked this card')
+      }
+      Card.findByIdAndUpdate(card._id,
+        { $addToSet: { 'likes': user} }, { new: true, runValidators: true})
+      .then(card => res.send(card))
+    })
+    .catch(next)
+}
+
+function removeLike(req, res, next) {
+  let user = req.user._id;
+  Card.findById(req.params.cardId)
+    .then((card) => {
+      if (!card.likes.includes(user)) {
+        throw new BadRequestError("this card is not liked")
+      }
+      Card.findByIdAndUpdate(card._id,
+        { $pull: { 'likes': user } },
+        { new: true })
+        .then(card => res.send(card))
+    })
+    .catch(next)
 }
 
 module.exports = {
   getCards,
   createCard,
   deleteCard,
+  addLike,
+  removeLike,
 };

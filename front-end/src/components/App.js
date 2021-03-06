@@ -38,11 +38,13 @@ function App() {
 React.useEffect(() => {
   api.getUserInfo().then((res) => {
     setCurrentUser(res);
+    console.log(currentUser);
   })
     .catch(err => console.log(err));
 
   // Call server to get initial cards
   api.getCardList().then(res => {
+    console.log(res);
     setCards(res.map((card) => ({
       link: card.link,
       name: card.name,
@@ -63,7 +65,6 @@ React.useEffect(() => {
             console.log('Error!');
           }
           setEmail(res.email);
-          console.log(res.email);
           setLoggedIn(true);
           setToken(jwt);
           history.push('/');
@@ -128,13 +129,13 @@ React.useEffect(() => {
   function handleCardLikeStatus(card) {
     // Check one more time if this card was already liked
 
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     let res;
 
     if (isLiked === false) {
-      res = api.cardLikeAdd(card._id, token)
+      res = api.cardLikeAdd(card._id)
     } else {
-      res = api.cardLikeRemove(card._id, token)
+      res = api.cardLikeRemove(card._id)
     }
     res.then((newCard) => {
       // Create a new array based on the existing one and putting a new card into it
@@ -146,7 +147,7 @@ React.useEffect(() => {
   }
 
   function handleDeleteCard(card) {
-    api.removeCard(card._id, token).then(() => {
+    api.removeCard(card._id).then(() => {
       const cardListCopy = cards.filter(c => c._id !== card._id);
       setCards(cardListCopy);
     })
@@ -155,7 +156,7 @@ React.useEffect(() => {
 
   // update and set Profile
   function handleUpdateProfile(userInfo) {
-    api.setUserInfo(userInfo, token).then(res => {
+    api.setUserInfo(userInfo).then(res => {
       setCurrentUser({ ...setCurrentUser, name: res.name, about: res.about, avatar: res.avatar })
     })
       .then(() => { handleClosePopups() })
@@ -163,7 +164,7 @@ React.useEffect(() => {
   }
 
   function handleUpdateAvatar(avatar) {
-    api.setUserAvatar({ avatar, token }).then(res => {
+    api.setUserAvatar({ avatar }).then(res => {
       setCurrentUser({ ...setCurrentUser, avatar: res.avatar, name: res.name, about: res.about })
     })
       .then(() => { handleClosePopups() })
