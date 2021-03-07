@@ -14,7 +14,7 @@ function Card(props) {
   );
 
   // Check if the card was liked by the current user
-  const isLiked = props.likes.some((i) => i === currentUser._id);
+  const isLiked = props.card.likes.some((i) => i === currentUser._id);
 
   // Create a variable which you then set in `className` for the like button
   const cardLikeButtonClassName = (
@@ -38,7 +38,7 @@ function Card(props) {
         <h3 className="card__title">{props.name}</h3>
         <div className="card__likes">
           <button className={cardLikeButtonClassName} onClick={handleLikeClick}></button>
-          <p className="card__like-count">{props.likes.length}</p>
+          <p className="card__like-count">{props.card.likes.length}</p>
         </div>
       </div>
     </li>

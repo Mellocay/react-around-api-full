@@ -155,7 +155,8 @@ React.useEffect(() => {
   // update and set Profile
   function handleUpdateProfile(userInfo) {
     api.setUserInfo(userInfo).then(res => {
-      setCurrentUser({ ...setCurrentUser, name: res.name, about: res.about, avatar: res.avatar })
+      console.log('HEEEEEELLLLOOOOOO', res)
+      setCurrentUser({ ...setCurrentUser, name: res.data.name, about: res.data.about, avatar: res.data.avatar })
     })
       .then(() => { handleClosePopups() })
       .catch(err => console.log(err));
@@ -163,7 +164,7 @@ React.useEffect(() => {
 
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar({ avatar }).then(res => {
-      setCurrentUser({ ...setCurrentUser, avatar: res.avatar, name: res.name, about: res.about })
+      setCurrentUser({ ...setCurrentUser, avatar: res.data.avatar, name: res.data.name, about: res.data.about })
     })
       .then(() => { handleClosePopups() })
       .catch(err => console.log(err));

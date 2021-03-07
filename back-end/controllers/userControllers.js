@@ -40,11 +40,22 @@ function createUser(req, res, next) {
 const updateUser = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(
-    req.user._id, {
-      "name": name,
-      "about": about,
-      },
-      { new: true, runValidators: true })
+    req.user._id, { name, about },
+      { new: true })
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Imaginary profile detected.  No such profile found');
+      }
+      res.status(200).send({ data: user });
+    })
+    .catch(next);
+};
+
+const updateAvatar = (req, res, next) => {
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(
+    req.user._id, { avatar },
+      { new: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Imaginary profile detected.  No such profile found');
@@ -95,4 +106,5 @@ module.exports = {
   updateUser,
   loginUser,
   getCurrentUser,
+  updateAvatar,
 };
