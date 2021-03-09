@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+const { celebrate, Joi, errors } = require('celebrate');
 
 const auth = require('./middleware/auth');
 const userRouter = require('./routers/users');
@@ -30,14 +31,27 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 
 app.use(requestLogger);
 // connect to routers
-app.post('/signup', createUser);
-app.post('/signin', loginUser);
+app.post('/signup',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }), createUser);
+
+app.post('/signin',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }), loginUser);
 app.use(auth);
 app.use('/', userRouter);
 app.use('/', cardRouter);
 
 app.use(errorLogger);
-// app.use(errors());
+app.use(errors());
 
 // requested page doesn't exist
 app.get('*', (req, res) => {

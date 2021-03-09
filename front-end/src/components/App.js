@@ -25,7 +25,7 @@ function App() {
 
   const api = React.useMemo(() => {
     return new Api({
-      baseUrl: "http://localhost:3001",
+      baseUrl: "https://caylamello.students.nomoreparties.site",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -36,6 +36,7 @@ function App() {
 
 // Call server for Profile/User Content
 React.useEffect(() => {
+  if (token) {
   api.getUserInfo().then((res) => {
     setCurrentUser(res);
   })
@@ -52,7 +53,8 @@ React.useEffect(() => {
     })))
   })
     .catch(err => console.log(err));
-}, [api]);
+  }
+}, [api, token]);
 
   function handleCheckToken() {
     const jwt = localStorage.getItem('jwt');
@@ -155,7 +157,6 @@ React.useEffect(() => {
   // update and set Profile
   function handleUpdateProfile(userInfo) {
     api.setUserInfo(userInfo).then(res => {
-      console.log('HEEEEEELLLLOOOOOO', res)
       setCurrentUser({ ...setCurrentUser, name: res.data.name, about: res.data.about, avatar: res.data.avatar })
     })
       .then(() => { handleClosePopups() })
