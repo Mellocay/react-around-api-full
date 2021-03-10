@@ -14,7 +14,7 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 const NotFoundError = require('./middleware/errors/NotFoundError.js');
 
 const app = express();
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 app.use(bodyParser.json());
 app.use(helmet());
