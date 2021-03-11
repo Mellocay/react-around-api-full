@@ -20,7 +20,6 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
 app.options('*', cors());
-
 // connect to the MongoDB server
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
@@ -29,6 +28,8 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 // connect to routers
 app.post('/signup',
