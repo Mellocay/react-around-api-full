@@ -10,13 +10,13 @@
    },
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/Mellocay/around-express.git"
+      "url": "git+https://github.com/Mellocay/react-around-api-full.git"
    },
    "keywords": [],
-   "author": "",
+   "author": "Cayla Mello",
    "license": "ISC",
    "bugs": {
-      "url": "https://github.com/Mellocay/around-express/issues"
+      "url": "https://github.com/Mellocay/react-around-api-full/issues"
    },
    "homepage": "https://www.caylamello.students.nomoreparties.site",
    "dependencies": {
