@@ -25,7 +25,7 @@ function App() {
 
   const api = React.useMemo(() => {
     return new Api({
-      baseUrl: "https://caylamello.students.nomoreparties.site",
+      baseUrl: "https://api.caylamello.students.nomoreparties.site",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
