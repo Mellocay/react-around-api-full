@@ -18,6 +18,7 @@
    "bugs": {
       "url": "https://github.com/Mellocay/around-express/issues"
    },
+   "homepage": "https://www.caylamello.students.nomoreparties.site",
    "dependencies": {
       "bcrypt": "^5.0.1",
       "bcryptjs": "^2.4.3",
