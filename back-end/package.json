@@ -18,7 +18,6 @@
    "bugs": {
       "url": "https://github.com/Mellocay/around-express/issues"
    },
-   "homepage": "https://github.com/Mellocay/around-express#readme",
    "dependencies": {
       "bcrypt": "^5.0.1",
       "bcryptjs": "^2.4.3",
