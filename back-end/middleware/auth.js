@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
   
 
   const token = jwt.sign(
-    { _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : '4fhKEG3Dk3ds', { expiresIn: '7d' });
+    { _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : '4fhKEt3Dk3ds', { expiresIn: '7d' });
 
 
 
