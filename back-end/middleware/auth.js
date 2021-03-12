@@ -12,20 +12,8 @@ module.exports = (req, res, next) => {
 
   const token = authorization.replace('Bearer ', '');
   let payload;
-  
-
-  const token = jwt.sign(
-    { _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : '4fhKEt3Dk3ds', { expiresIn: '7d' });
-
-
-
-
-
-
-
-
   try {
-    payload = jwt.verify(token, '4fhKEt3Dk3ds');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : '4fhKEt3Dk3ds');
   } catch (err) {
     return res
       .status(401)
