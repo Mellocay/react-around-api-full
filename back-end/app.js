@@ -12,14 +12,14 @@ const cardRouter = require('./routers/cards');
 const { createUser, loginUser } = require('./controllers/userControllers');
 const { requestLogger, errorLogger } = require('./middleware/logger'); 
 const NotFoundError = require('./middleware/errors/NotFoundError.js');
-
 const app = express();
 const { PORT = 3000 } = process.env;
 
-app.use(bodyParser.json());
-app.use(helmet());
-app.use(cors());
-app.options('*', cors());
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 
+}
+
 // connect to the MongoDB server
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
@@ -28,8 +28,12 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
-app.use(express.json({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(helmet());
+app.use(cors());
+app.use(express.json(), cors(corsOptions));
+app.options('*', cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 // connect to routers
 app.post('/signup',
